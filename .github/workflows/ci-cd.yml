@@ -1,0 +1,47 @@
+name: CI-CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      # Build Docker image
+      - name: Build Docker Image
+        run: docker build -t izoniks/cloudflaredynwanipfixer:latest .
+
+      # Test run the container to ensure it starts up
+      - name: Test run container
+        run: docker run --rm -d --name test_container izoniks/cloudflaredynwanipfixer:latest
+
+      - name: Check container logs (optional)
+        run: docker logs test_container
+
+      - name: Stop and remove container
+        run: docker stop test_container
+
+      # Push to Docker Hub
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push Docker Image
+        run: docker push izoniks/cloudflaredynwanipfixer:latest

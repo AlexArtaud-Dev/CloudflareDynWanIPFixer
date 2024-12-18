@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  ip-watcher:
+    build: .
+    environment:
+      INTERVAL_SECONDS: 10
+      CLOUDFLARE_API_TOKEN: TK8qvxKskzWj5qff8jM6J7WOaghKEjApz-wZ6yzs
+      CLOUDFLARE_ZONE_ID: e32b0f58d0adf91855eb9931b76b9ec7
+      CLOUDFLARE_RECORD_ID: eacce330e23fde849718a018fc0e7498
+      CLOUDFLARE_RECORD_NAME: "roger-proxmox.xyz"
+      EMAIL_HOST: "smtp.gmail.com"
+      EMAIL_PORT: "465"
+      EMAIL_SECURE: "true"
+      EMAIL_USER: "rogerproxmox@gmail.com"
+      EMAIL_PASS: "qakuztillfkkzecw"
+      EMAIL_TO: "smlartaudalexandre@gmail.com"
+      FAKE_MODE: "false"
+    restart: unless-stopped
