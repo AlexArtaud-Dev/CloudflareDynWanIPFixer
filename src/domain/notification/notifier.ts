@@ -17,8 +17,20 @@ export async function notify(ip: string): Promise<void> {
 						const mailOptions = {
 									from: config.emailUser,
 									to: config.emailTo,
-									subject: "WAN IP Changed",
-									text: `Your WAN IP has changed to: ${ip}`
+									subject: "🌐 WAN IP Change Detected 🌐",
+									html: `
+        <div style="font-family: Arial, sans-serif; text-align: center; color: #333;">
+          <h1 style="color: #007BFF;">🌟 Cloudflare Dynamic WAN IP Fixer 🌟</h1>
+          <p>Your WAN IP has changed!</p>
+          <div style="margin: 20px 0; padding: 10px; background-color: #F0F8FF; border-radius: 10px;">
+            <strong>New WAN IP:</strong> 
+            <span style="font-size: 1.2em; color: #007BFF;">${ip}</span>
+          </div>
+          <p>This change has been updated in your Cloudflare DNS settings.</p>
+          <hr />
+          <p style="font-size: 0.9em; color: #555;">This is an automated message from your Cloudflare Dynamic WAN IP Fixer.</p>
+        </div>
+      `,
 						};
 
 						await transporter.sendMail(mailOptions);
