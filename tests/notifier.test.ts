@@ -25,8 +25,8 @@ describe("Notifier", () => {
 						expect(sendMailMock).toHaveBeenCalledWith({
 									from: "sender@example.com",
 									to: "recipient@example.com",
-									subject: "WAN IP Changed",
-									text: "Your WAN IP has changed to: 1.2.3.4",
+									subject: "🌐 WAN IP Change Detected 🌐",
+									html: expect.stringContaining("1.2.3.4"),
 						});
 			});
 
@@ -34,5 +34,6 @@ describe("Notifier", () => {
 						sendMailMock.mockRejectedValueOnce(new Error("SMTP Error"));
 						await notify("1.2.3.4");
 						// The error is logged but not thrown.
+						// You could also add assertions to check the logger if needed.
 			});
 });
